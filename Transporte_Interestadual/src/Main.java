@@ -17,14 +17,18 @@ public class Main {
             int i = 0; // será usado para contar colunas da matriz
 
             linha = arquivo.readLine();
-            String[] aux = linha.split(";"); // necessário para usar map
-            distancias = Arrays.stream(aux).mapToInt(Integer::parseInt).toArray();
-
             while (linha != null) {
+                //adicionar as linhas restantes da lista de distâncias dentro do objeto 'cidades'
+                //assim criamos uma 'matriz' a ser consultada com as distâncias via índice da List
+                cidades.adicionarVetorDistancia(Arrays.stream(linha.split(";")).mapToInt(Integer::parseInt).toArray());
 
+                linha = arquivo.readLine();
             }
+
+            System.out.println(cidades);
         } catch (IOException e) {
             System.out.println("Erro " + e.getMessage());
         }
+
     }
 }
