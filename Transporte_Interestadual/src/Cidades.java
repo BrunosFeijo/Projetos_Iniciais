@@ -12,21 +12,22 @@ public class Cidades {
         distancias = new ArrayList<>();
         //this.tamanho = cidades.length;
     }
-    public void adicionarVetorDistancia(int[] distancia){
+
+    public void adicionarVetorDistancia(int[] distancia) {
         this.distancias.add(distancia);
     }
 
     @Override
     public String toString() {
-        return "Cidades{" +
-                "cidades=" + Arrays.toString(cidades) + "\n" +
-                for(int i = 0; i < distancias.size();i++){
-                    System.out.print("Linha " + i + ": ");
-                    for (int j =0 ; j < distancias.indexOf(i);j++){
-                        System.out.println();
-                    }
-                }
-                ;
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Cidades{" + "cidades=" + Arrays.toString(cidades) + "\n");
+        for (int i = 0; i < distancias.size(); i++) {
+            System.out.print("Linha " + i + ": ");
+            for (int j = 0; j < distancias.indexOf(i); j++) {
+                System.out.println();
+            }
+        }
 
+        return stringBuilder.toString();
     }
 }
