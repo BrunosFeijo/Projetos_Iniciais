@@ -15,5 +15,5 @@ public enum Modalidades {
     public double getValor(){
         return valor;
     }
-    
+
 }
