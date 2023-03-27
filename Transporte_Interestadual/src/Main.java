@@ -1,19 +1,17 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
         String caminho = "C:\\Users\\bruno\\Desktop\\Teste PUC_DELL\\DNIT-Distancias.csv";
-
+        Trechos cidades = null;
         // Inicilizar BufferReader e FileReader no try para que sejam desalocados automaticamente no final
         // sem necessitar de blobo finally
         try (BufferedReader arquivo = new BufferedReader(new FileReader(caminho))) {
             String linha = arquivo.readLine(); // ler primeira linha
-            Cidades cidades = new Cidades(linha.split(";")); // capturar nome das cidades na primeira linha
+            cidades = new Trechos(linha.split(";")); // capturar nome das cidades na primeira linha
             int i = 0; // será usado para contar colunas da matriz
 
             linha = arquivo.readLine();
@@ -26,10 +24,8 @@ public class Main {
                 linha = arquivo.readLine(); // nova leitura
             }
 
-            System.out.println(cidades);
         } catch (IOException e) {
             System.out.println("Erro " + e.getMessage());
         }
-
     }
 }

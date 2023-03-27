@@ -1,10 +1,10 @@
-public enum Caminhoes {
-    PEQUENO(1, 4.87), MEDIO(4,11.92), GRANDE(10,27.44);
+public enum Modalidades {
+    PEQUENO_PORTE(1, 4.87), MEDIO_PORTE(4,11.92), GRANDE_PORTE(10,27.44);
 
     private final int peso;
     private final double valor;
 
-    Caminhoes(int peso, double valor) {
+    Modalidades(int peso, double valor) {
         this.peso = peso;
         this.valor = valor;
     }
@@ -15,4 +15,5 @@ public enum Caminhoes {
     public double getValor(){
         return valor;
     }
+
 }
