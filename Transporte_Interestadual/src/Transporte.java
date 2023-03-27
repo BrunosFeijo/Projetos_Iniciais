@@ -1,5 +1,5 @@
 public class Transporte {
-    
+
     private Modalidades modalidade;
     private Trechos trecho;
     private Produtos produtos;
@@ -19,4 +19,5 @@ public class Transporte {
 
         return stringBuilder.toString();
     }
+    
 }
