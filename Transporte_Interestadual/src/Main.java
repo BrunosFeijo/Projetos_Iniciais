@@ -29,6 +29,6 @@ public class Main {
         }
         Transporte t1 = new Transporte(cidades);
 
-        System.out.println(t1.informarCustoTrecho("Porto Alegre" , "Curitiba", Modalidades.GRANDE_PORTE));
+        System.out.println(t1.consultarCustoTrecho("Porto Alegre" , "Curitiba", Modalidades.GRANDE_PORTE));
     }
 }
