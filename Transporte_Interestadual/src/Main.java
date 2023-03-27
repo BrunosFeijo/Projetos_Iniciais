@@ -17,12 +17,13 @@ public class Main {
             int i = 0; // será usado para contar colunas da matriz
 
             linha = arquivo.readLine();
-            while (linha != null) {
+            while (linha != null) { // verifica se a linha lida ainda contém dados ou já está vazia
+
                 //adicionar as linhas restantes da lista de distâncias dentro do objeto 'cidades'
                 //assim criamos uma 'matriz' a ser consultada com as distâncias via índice da List
                 cidades.adicionarVetorDistancia(Arrays.stream(linha.split(";")).mapToInt(Integer::parseInt).toArray());
 
-                linha = arquivo.readLine();
+                linha = arquivo.readLine(); // nova leitura
             }
 
             System.out.println(cidades);
