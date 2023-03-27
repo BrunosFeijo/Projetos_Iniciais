@@ -22,10 +22,11 @@ public class Cidades {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Cidades{" + "cidades=" + Arrays.toString(cidades) + "\n");
         for (int i = 0; i < distancias.size(); i++) {
-            System.out.print("Linha " + i + ": ");
+            stringBuilder.append("Linha " + i + "{ ");
             for (int j = 0; j < distancias.indexOf(i); j++) {
-                System.out.println();
+                stringBuilder.append(distancias.indexOf(i).);
             }
+            stringBuilder.append("}\n");
         }
 
         return stringBuilder.toString();
