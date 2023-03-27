@@ -20,13 +20,17 @@ public class Cidades {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Cidades{" + "cidades=" + Arrays.toString(cidades) + "\n");
+
+        stringBuilder.append("Cidades=" + Arrays.toString(cidades) + "\n");
         for (int i = 0; i < distancias.size(); i++) {
-            stringBuilder.append("Linha " + i + "{ ");
-            for (int j = 0; j < distancias.indexOf(i); j++) {
-                stringBuilder.append(distancias.indexOf(i).);
+            stringBuilder.append("Linha " + i + "{");
+            int[] vetor = distancias.get(i);
+
+            for (int j = 0; j < distancias.get(i).length -1 ; j++) {
+                stringBuilder.append(vetor[j] + ", ");
             }
-            stringBuilder.append("}\n");
+
+            stringBuilder.append(vetor[distancias.get(i).length -1 ] + "}\n");
         }
 
         return stringBuilder.toString();
