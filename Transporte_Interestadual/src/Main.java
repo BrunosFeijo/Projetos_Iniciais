@@ -13,8 +13,7 @@ public class Main {
         // sem necessitar de blobo finally
         try (BufferedReader arquivo = new BufferedReader(new FileReader(caminho))) {
             String linha = arquivo.readLine(); // ler primeira linha
-            String[] cidades = linha.split(";"); // capturar nome das cidades na primeira linha
-            int[] distancias = null;
+            Cidades cidades = new Cidades(linha.split(";")); // capturar nome das cidades na primeira linha
             int i = 0; // será usado para contar colunas da matriz
 
             linha = arquivo.readLine();
