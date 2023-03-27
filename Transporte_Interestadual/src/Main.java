@@ -27,5 +27,8 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Erro " + e.getMessage());
         }
+        Transporte t1 = new Transporte(cidades);
+
+        System.out.println(t1.informarCustoTrecho("Porto Alegre" , "Curitiba", Modalidades.GRANDE_PORTE));
     }
 }
