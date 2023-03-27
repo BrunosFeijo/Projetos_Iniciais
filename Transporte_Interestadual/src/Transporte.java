@@ -1,8 +1,6 @@
 public class Transporte {
 
-    private Modalidades modalidade;
     private Trechos trecho;
-    private Produtos produtos;
 
     public Transporte(Trechos trecho) {
         this.trecho = trecho;
@@ -10,6 +8,20 @@ public class Transporte {
     public double custoTrecho(String cidade1, String cidade2, Modalidades modalidade){
 
         return trecho.distanciaEntreCidades(cidade1, cidade2) * modalidade.getValor();
+    }
+    public String modalidadeAdequada(double peso){
+        int qtdGrande = 0;
+        int qtdMedio = 0;
+        int qtdPequeno = 0;
+        double sobra = peso;
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if ((peso % Modalidades.GRANDE_PORTE.getPeso()) >= 0){
+
+        }
+
+        return stringBuilder.toString();
     }
     public String consultarCustoTrecho(String cidade1, String cidade2, Modalidades modalidade){
         StringBuilder stringBuilder = new StringBuilder();
@@ -19,5 +31,5 @@ public class Transporte {
 
         return stringBuilder.toString();
     }
-    
+
 }
