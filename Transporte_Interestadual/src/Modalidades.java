@@ -1,7 +1,7 @@
 public enum Modalidades {
-    PEQUENO_PORTE(1, 4.87, "Caminhão de Pequeno Porte"),
-    MEDIO_PORTE(4,11.92, "Caminhão de Médio Porte"),
-    GRANDE_PORTE(10,27.44, "Caminhão de Grande Porte");
+    PEQUENO_PORTE(1000, 4.87, "Caminhão de Pequeno Porte"),
+    MEDIO_PORTE(4000,11.92, "Caminhão de Médio Porte"),
+    GRANDE_PORTE(10000,27.44, "Caminhão de Grande Porte");
 
     private final int peso;
     private final double valor;
