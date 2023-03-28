@@ -5,6 +5,7 @@ public class Transporte {
     private int qtdCaminhaoMedio = 0;
     private int qtdCaminhaoPequeno = 0;
 
+
     public Transporte(Trechos trecho) {
         this.trecho = trecho;
     }
@@ -17,9 +18,9 @@ public class Transporte {
     public String modalidadeAdequada(double peso) {
         calculoQtdCaminhoes((int) Math.ceil(peso));
         StringBuilder stringBuilder = new StringBuilder();
-        if (qtdCaminhaoGrande > 0) stringBuilder.append(qtdCaminhaoGrande).append(" de Porte Grande ");
-        if (qtdCaminhaoMedio > 0) stringBuilder.append(qtdCaminhaoMedio).append(" de Porte Médio ");
-        if (qtdCaminhaoPequeno > 0) stringBuilder.append(qtdCaminhaoPequeno).append(" de Porte Pequeno");
+        if (qtdCaminhaoGrande > 0) stringBuilder.append(qtdCaminhaoGrande).append(" de Porte Grande - ");
+        if (qtdCaminhaoMedio > 0) stringBuilder.append(qtdCaminhaoMedio).append(" de Porte Médio - ");
+        if (qtdCaminhaoPequeno > 0) stringBuilder.append(qtdCaminhaoPequeno).append(" de Porte Pequeno - ");
 
         return stringBuilder.toString();
     }
@@ -41,7 +42,7 @@ public class Transporte {
             peso -= peso;
             qtdCaminhaoMedio++;
             return peso;
-        }else if (peso >= Modalidades.PEQUENO_PORTE.getPeso()){
+        } else if (peso >= Modalidades.PEQUENO_PORTE.getPeso()) {
             peso -= Modalidades.PEQUENO_PORTE.getPeso();
             qtdCaminhaoPequeno++;
             return calculoQtdCaminhoes(peso);
@@ -57,7 +58,4 @@ public class Transporte {
 
         return stringBuilder.toString();
     }
-    
-
-
 }
