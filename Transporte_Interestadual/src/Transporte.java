@@ -45,11 +45,8 @@ public class Transporte {
             peso -= Modalidades.PEQUENO_PORTE.getPeso();
             qtdCaminhaoPequeno++;
             return calculoQtdCaminhoes(peso);
-        }else {
-            peso-= peso;
-            qtdCaminhaoPequeno++;
-            return 0;
         }
+        return 0;
     }
 
     public String consultarCustoTrecho(String cidade1, String cidade2, Modalidades modalidade) {
@@ -60,6 +57,7 @@ public class Transporte {
 
         return stringBuilder.toString();
     }
+    
 
 
 }
