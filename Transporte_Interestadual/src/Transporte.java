@@ -52,25 +52,6 @@ public class Transporte {
         return 0;
     }
 
-    public double calculoPesoProdutos(List<Produtos> produtos, List<Double> qtds) {
-        double peso = 0;
-        int i = 0;
-
-        while(produtos.isEmpty()){
-            switch (produtos.get(i)){
-                case CELULAR -> peso += qtds.get(i) * Produtos.CELULAR.getPeso();
-                case GELADEIRA -> peso += qtds.get(i) * Produtos.GELADEIRA.getPeso();
-                case FREEZER -> peso += qtds.get(i) * Produtos.FREEZER.getPeso();
-                case CADEIRA -> peso += qtds.get(i) * Produtos.CADEIRA.getPeso();
-                case LUMINARIA -> peso += qtds.get(i) * Produtos.LUMINARIA.getPeso();
-                case LAVADORA_DE_ROUPA -> peso += qtds.get(i) * Produtos.LAVADORA_DE_ROUPA.getPeso();
-            }
-            i++;
-        }
-
-        return peso;
-    }
-
     public String consultarCustoTrecho(String cidade1, String cidade2, Modalidades modalidade) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("De " + cidade1 + " para " + cidade2 + ", utilizando um " + modalidade.toString() +
