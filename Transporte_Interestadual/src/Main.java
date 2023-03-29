@@ -6,7 +6,9 @@ import java.util.*;
 
 public class Main {
     static List<Produtos> produtos = new ArrayList<>(); // permitir que o usuário liste vários itens
+    static List<Produtos> produtosEntregues = new ArrayList<>();// guardar produtos entregues e mais tarde comparar pesos
     static List<Integer> qtdProdutos = new ArrayList<>(); // permitir que o usuário liste as suas quantidades
+    static List<Integer> qtdProdutosEntregues = new ArrayList<>(); // permitir que o usuário liste as suas quantidades
     static List<String> trechos = new ArrayList<>(); // permitir que o usuário liste várias cidades
     static Set<String> evitarDuplicados = new HashSet<>(); // utilizar Set para evitar duplicidade de cidades
 
@@ -164,6 +166,60 @@ public class Main {
         }
 
         return peso;
+    }
+
+    public static void entregarCarga() {
+        if (produtos.size() == 0) {
+            System.out.println("Preencha a lista de produtos antes de preencher a lista de entrega");
+        } else {
+            Scanner entrada = new Scanner(System.in);
+            Produtos produto;
+            int opcao = -1; // opção para menu de produtos
+            int qtd; // quantidade a ser definida para cada produto
+            System.out.println("Estão cadastradas " + (trechos.size() - 1) + " paradas para entrega.");
+            System.out.println("Em qual delas deseja informar os produtos que serão entregues a seguir? ");
+            int parada = entrada.nextInt();
+
+            if (parada > trechos.size() - 1 || parada <= 0) {
+                System.out.println("Número da entrega não encontrado. Digite um número de 1 a " + (trechos.size() - 1));
+            } else {
+                while (opcao != 0) {
+                    System.out.println("----------Menu de Produtos----------");
+                    System.out.println("1 - Celular");
+                    System.out.println("2 - Geladeira");
+                    System.out.println("3 - Freezer");
+                    System.out.println("4 - Cadeira");
+                    System.out.println("5 - Luminária");
+                    System.out.println("6 - Lavadora de Roupa");
+                    System.out.println("0 - Cancelar");
+                    System.out.println("------------------------------------");
+
+                    System.out.print("Escolha quais produtos devem ser entregues em " + trechos.get(parada - 1) + " ");
+                    opcao = entrada.nextInt();
+                    if (opcao > 0 && opcao < 7) {// verificar se opção é válida
+                        System.out.print("Escolha a quantidade: ");
+                        qtd = entrada.nextInt();
+                        if (verificarListaDeProdutos(definirProduto(opcao),qtd)){
+                            produtosEntregues.add(); // adicionar produto selecionado na lista
+                            qtdProdutosEntregues.add();
+                        }else{
+
+                        }
+
+
+                    } else if (opcao != 0) { // se não...
+                        System.out.println("Opção inválida. Tente novamente!");
+                        System.out.println("\n");
+                    }
+                }
+                return calculoPesoProdutos(produtos, qtdProdutos); // retornar peso total
+            }
+        }
+    }
+
+    public static boolean verificarListaDeProdutos(Produtos produto, int qtd) {
+
+        return true;
     }
 
     public static int escolherCidade(Transporte transporte, String[] listaCidades) {

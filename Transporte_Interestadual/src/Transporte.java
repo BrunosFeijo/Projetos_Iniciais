@@ -99,8 +99,5 @@ public class Transporte {
         }
         custos.add(custoTotalTrecho);
     }
-    private double entregasParciais(double peso){
 
-        return 0;
-    }
 }
