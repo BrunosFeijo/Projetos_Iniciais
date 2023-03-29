@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,12 +6,13 @@ import java.util.*;
 
 public class Main {
     static List<Produtos> produtos = new ArrayList<>(); // permitir que o usuário liste vários itens
-    static List<Integer> qtdProdutos = new ArrayList<>(); // permitir que o usuário liste suas quantidades
-    static Set<String> trechos = new HashSet<>(); // utilizar Set para evitar duplicidade de cidades
+    static List<Integer> qtdProdutos = new ArrayList<>(); // permitir que o usuário liste as suas quantidades
+    static List<String> trechos = new ArrayList<>(); // permitir que o usuário liste várias cidades
+    static Set<String> evitarDuplicados = new HashSet<>(); // utilizar Set para evitar duplicidade de cidades
     public static void main(String[] args) {
         String caminho = "C:\\Users\\bruno\\Desktop\\Teste PUC_DELL\\DNIT-Distancias.csv";
         Trechos cidades = null; // criado fora do try para ser usado posteriormente
-        double peso = 0;
+        double peso;
 
 
         // Inicilizar BufferReader e FileReader no try para que sejam desalocados automaticamente no final
@@ -21,12 +20,11 @@ public class Main {
         try (BufferedReader arquivo = new BufferedReader(new FileReader(caminho))) {
             String linha = arquivo.readLine(); // ler primeira linha
             cidades = new Trechos(linha.split(";")); // capturar nome das cidades na primeira linha
-            int i = 0; // será usado para contar colunas da matriz
 
             linha = arquivo.readLine();
             while (linha != null) { // verifica se a linha lida ainda contém dados ou já está vazia
 
-                //adicionar as linhas restantes da lista de distâncias dentro do objeto 'cidades'
+                //adicionar as linhas restantes da lista de distâncias no objeto 'cidades'
                 //assim criamos uma 'matriz' a ser consultada com as distâncias via índice da List
                 cidades.adicionarVetorDistancia(Arrays.stream(linha.split(";")).mapToInt(Integer::parseInt).toArray());
 
@@ -36,21 +34,22 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Erro " + e.getMessage());
         }
-        Transporte t1 = new Transporte(cidades);//inicializa o objeto 'Transporte' com a lista de distancias
+        Transporte t1 = new Transporte(cidades);//inicializa o objeto 'Transporte' com a matriz de distâncias
 
         System.out.println(t1.consultarCustoTrecho("Manaus", "Curitiba", Modalidades.MEDIO_PORTE));
-        escolherCidade(cidades.getCidades());
 
+        System.out.println("Distância ToTal: " + escolherCidade(t1,cidades.getCidades()) + "km");
         peso = menuProdutos();
+        System.out.println("Peso Total: " + peso);
         System.out.println(t1.modalidadeAdequada(peso));
     }
 
     public static double menuProdutos() {
         Scanner entrada = new Scanner(System.in);
-        produtos.clear(); // caso haja um novo pedido dentro do mesmo carrinho
-        qtdProdutos.clear(); // caso haja um novo pedido dentro do mesmo carrinho
+        produtos.clear(); // caso haja um novo pedido no mesmo carrinho
+        qtdProdutos.clear(); // caso haja um novo pedido no mesmo carrinho
         int opcao = -1; // opção para menu de produtos
-        int qtd = 0; // quantidade a ser definida para cada produto
+        int qtd; // quantidade a ser definida para cada produto
 
         while (opcao != 0) {
             System.out.println("----------Menu de Produtos----------");
@@ -79,6 +78,7 @@ public class Main {
     }
 
     public static Produtos definirProduto(int opcao) {
+        //Converter opção de inteiro para enumerador
         Produtos produto = null;
         switch (opcao) {
             case 1 -> produto = Produtos.CELULAR;
@@ -92,6 +92,7 @@ public class Main {
     }
 
     public static double calculoPesoProdutos(List<Produtos> produtos, List<Integer> qtds) {
+        //Iterar todos os produtos da lista e gerar peso final para definir tamanho adequado de transporte
         double peso = 0;
         int i = produtos.size() - 1;
 
@@ -110,27 +111,26 @@ public class Main {
         return peso;
     }
 
-    public static void escolherCidade(String[] listaCidades) {
+    public static int escolherCidade(Transporte transporte, String[] listaCidades) {
         Scanner entrada = new Scanner(System.in);
-        String[] cidades = listaCidades; // inicializando lista de cidades para dar opções ao usuário
-
-        int opcao = -1;
+        trechos.clear(); // caso seja necessário solicitar mais de uma entrega
+        int opcao;
 
         //Ajustando interface gráfica
-        JFrame frame = new JFrame("Selecione uma cidade");
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("Cidades: ");
-        JComboBox<String> combo = new JComboBox<String>(cidades);
+        JFrame frame = new JFrame("Selecione uma cidade"); //janela
+        JPanel panel = new JPanel(); // painel
+        JLabel label = new JLabel("Cidades: "); // rótulo do combobox
+        JComboBox<String> combo = new JComboBox<>(listaCidades); // inserir lista de cidades no combobox
 
         System.out.print("Se deseja adicionar uma cidade ao trajeto digite 1. Ou 0 para finalizar: ");
         opcao = entrada.nextInt();
-        while (opcao != 0) {
-            combo.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-                    String cidadeSelecionada = (String) combo.getSelectedItem();
-                    trechos.add(cidadeSelecionada);
-                    frame.dispose();
+        while (opcao != 0 || trechos.size() < 2) {
+            combo.addActionListener(event -> {
+                String cidadeSelecionada = (String) combo.getSelectedItem();
+                if (evitarDuplicados.add(cidadeSelecionada)){ //testar duplicidade das cidades usando HashSet (auxiliar)
+                    trechos.add(cidadeSelecionada); //adicionado na lista real
                 }
+                frame.dispose();
             });
 
             panel.add(label);
@@ -144,5 +144,15 @@ public class Main {
             opcao = entrada.nextInt();
         }
         System.out.println(trechos.toString());
+
+        return transporte.distanciaTotalDoTrecho(trechos);
+    }
+    public static String textoTransporteFinal(List<String> listaCidades, int distancia, List<Produtos> produtos,
+                                              List<Integer> qtdProdutos,String caminhoes, double custoTotal){
+
+        StringBuilder stringBuilder =new StringBuilder();
+
+
+        return stringBuilder.toString();
     }
 }

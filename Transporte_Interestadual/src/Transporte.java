@@ -6,6 +6,7 @@ public class Transporte {
     private int qtdCaminhaoGrande = 0;
     private int qtdCaminhaoMedio = 0;
     private int qtdCaminhaoPequeno = 0;
+    //private int distanciaTotal = 0;
 
 
     public Transporte(Trechos trecho) {
@@ -24,9 +25,9 @@ public class Transporte {
         if (qtdCaminhaoMedio > 0) stringBuilder.append(qtdCaminhaoMedio).append(" de Porte Médio - ");
         if (qtdCaminhaoPequeno > 0) stringBuilder.append(qtdCaminhaoPequeno).append(" de Porte Pequeno - ");
 
-        qtdCaminhaoGrande = 0; // retorna qtd a zero
-        qtdCaminhaoMedio = 0;
-        qtdCaminhaoPequeno = 0;
+//        qtdCaminhaoGrande = 0; // retorna qtd a zero
+//        qtdCaminhaoMedio = 0;
+//        qtdCaminhaoPequeno = 0;
 
         return stringBuilder.toString();
     }
@@ -64,5 +65,13 @@ public class Transporte {
                 " e o custo será de R$" + custoTrecho(cidade1, cidade2, modalidade));
 
         return stringBuilder.toString();
+    }
+
+    public int distanciaTotalDoTrecho(List<String> listaCidades) {
+        int distanciaTotal= 0;
+        for (int i = 0; i < listaCidades.size() - 1; i++) {
+            distanciaTotal += trecho.distanciaEntreCidades(listaCidades.get(i), listaCidades.get(i + 1));
+        }
+        return distanciaTotal;
     }
 }
