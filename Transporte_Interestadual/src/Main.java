@@ -110,10 +110,11 @@ public class Main {
 
     public static void escolherCidade(String[] listaCidades) {
         Scanner entrada = new Scanner(System.in);
-        String[] cidades = listaCidades;
-        Set<String> trechos = new HashSet<>();
+        String[] cidades = listaCidades; // inicializando lista de cidades para dar opções ao usuário
+        Set<String> trechos = new HashSet<>(); // utilizar Set para evitar duplicidade de cidades
         int opcao = -1;
 
+        //Ajustando interface gráfica
         JFrame frame = new JFrame("Cidades");
         JPanel panel = new JPanel();
         JLabel label = new JLabel("Selecione uma cidade:");

@@ -24,6 +24,10 @@ public class Transporte {
         if (qtdCaminhaoMedio > 0) stringBuilder.append(qtdCaminhaoMedio).append(" de Porte Médio - ");
         if (qtdCaminhaoPequeno > 0) stringBuilder.append(qtdCaminhaoPequeno).append(" de Porte Pequeno - ");
 
+        qtdCaminhaoGrande = 0; // retorna qtd a zero
+        qtdCaminhaoMedio = 0;
+        qtdCaminhaoPequeno = 0;
+
         return stringBuilder.toString();
     }
 
@@ -44,13 +48,14 @@ public class Transporte {
             peso -= peso;
             qtdCaminhaoMedio++;
             return peso;
-        } else if(peso > 0) {
+        } else if (peso > 0) {
             peso -= Modalidades.PEQUENO_PORTE.getPeso();
             qtdCaminhaoPequeno++;
             return calculoQtdCaminhoes(peso);
         }
         return 0;
     }
+
 
     public String consultarCustoTrecho(String cidade1, String cidade2, Modalidades modalidade) {
         StringBuilder stringBuilder = new StringBuilder();
