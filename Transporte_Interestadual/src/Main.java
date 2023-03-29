@@ -242,7 +242,7 @@ public class Main {
     public static int escolherCidadeParaConsulta(Transporte transporte, String[] listaCidades) {
         Scanner entrada = new Scanner(System.in);
         trechos.clear(); // caso seja necessário solicitar mais de uma entrega
-        int opcao;
+        int opcao = -1;
 
         //Ajustando interface gráfica
         JFrame frame = new JFrame("Selecione uma cidade"); //janela
@@ -250,9 +250,9 @@ public class Main {
         JLabel label = new JLabel("Cidades: "); // rótulo do combobox
         JComboBox<String> combo = new JComboBox<>(listaCidades); // inserir lista de cidades no combobox
 
-        System.out.print("Selecione qualquer número para continuar ou 0 para sair: ");
-        opcao = entrada.nextInt();
-        while (opcao != 0 || cidadesConsulta.size() < 2) {
+        while (opcao != 0 && cidadesConsulta.size() < 2) {
+            System.out.print("Selecione qualquer número para continuar ou 0 para sair: ");
+            opcao = entrada.nextInt();
             combo.addActionListener(event -> {
                 String cidadeSelecionada = (String) combo.getSelectedItem();
                 if (evitarDuplicados.add(cidadeSelecionada)) { //testar duplicidade das cidades usando HashSet (auxiliar)
