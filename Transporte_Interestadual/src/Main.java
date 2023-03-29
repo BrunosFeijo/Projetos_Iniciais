@@ -47,18 +47,24 @@ public class Main {
             System.out.println("----------Menu de Produtos----------");
 
             System.out.println("------------------------------------");
+
             System.out.println("Escolha um produto: ");
 
             System.out.println("Escolha a quantidade: ");
 
+            if (opcao)
         }
     }
     public static Produtos definirProduto(int opcao){
         Produtos produto = null;
         switch (opcao){
-            
+            case 1 -> produto = Produtos.CELULAR;
+            case 2 -> produto = Produtos.GELADEIRA;
+            case 3 -> produto = Produtos.FREEZER;
+            case 4 -> produto = Produtos.CADEIRA;
+            case 5 -> produto = Produtos.LUMINARIA;
+            case 6 -> produto = Produtos.LAVADORA_DE_ROUPA;
         }
-
 
         return produto;
     }
