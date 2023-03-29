@@ -9,10 +9,15 @@ public class Main {
     static List<Integer> qtdProdutos = new ArrayList<>(); // permitir que o usuário liste as suas quantidades
     static List<String> trechos = new ArrayList<>(); // permitir que o usuário liste várias cidades
     static Set<String> evitarDuplicados = new HashSet<>(); // utilizar Set para evitar duplicidade de cidades
+
     public static void main(String[] args) {
         String caminho = "C:\\Users\\bruno\\Desktop\\Teste PUC_DELL\\DNIT-Distancias.csv";
         Trechos cidades = null; // criado fora do try para ser usado posteriormente
-        double peso;
+        int opcao;
+        double peso = 0;
+        int distancia = 0;
+        String caminhoesNecessarios = "";
+        double custoTotal = 0;
 
 
         // Inicilizar BufferReader e FileReader no try para que sejam desalocados automaticamente no final
@@ -34,14 +39,63 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Erro " + e.getMessage());
         }
+
         Transporte t1 = new Transporte(cidades);//inicializa o objeto 'Transporte' com a matriz de distâncias
+        opcao = menuPrincipal();
 
-        System.out.println(t1.consultarCustoTrecho("Manaus", "Curitiba", Modalidades.MEDIO_PORTE));
+        while (opcao != 0) {
+            switch (opcao) {
+                case 1:
+                    System.out.println(t1.consultarCustoTrecho("Manaus", "Curitiba", Modalidades.MEDIO_PORTE));
+                    break;
+                case 2:
+                    distancia = escolherCidade(t1, cidades.getCidades()); //método para escolher cidades do trajeto retorna a distância
+                    break;
+                case 3:
+                    peso = menuProdutos();// menu de produtos retorna o peso
+                    caminhoesNecessarios = t1.modalidadeAdequada(peso);//verificação das modalidades de transporte retorna uma String
+                    break;
+                case 4:
+                    if (trechos.size() == 0 || produtos.size() == 0) {
+                        System.out.println("Pedido incompleto");
+                    } else {
+                        System.out.println(textoTransporteFinal(trechos, distancia, produtos,
+                                qtdProdutos, peso, caminhoesNecessarios, custoTotal));
+                    }
+                    break;
+            }
+            opcao = menuPrincipal();
+        }
 
-        System.out.println("Distância ToTal: " + escolherCidade(t1,cidades.getCidades()) + "km");
-        peso = menuProdutos();
-        System.out.println("Peso Total: " + peso);
-        System.out.println(t1.modalidadeAdequada(peso));
+
+    }
+
+    public static int menuPrincipal() {
+        Scanner entrada = new Scanner(System.in);
+        int opcao = -1;
+        boolean opcaoValida = true;
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\n---------------------------Menu---------------------------\n");
+        stringBuilder.append("1- Consultar custo de trecho unitário (valor de carga média)\n");
+        stringBuilder.append("2- Informar trajeto\n");
+        stringBuilder.append("3- Informar produtos e quantidades\n");
+        stringBuilder.append("4- Resumo pedido\n");
+        stringBuilder.append("0- Cancelar e Sair\n");
+        stringBuilder.append("-------------------------------------------------------------\n");
+        stringBuilder.append("Digite a opção desejada: ");
+
+
+        while (opcaoValida) {
+            System.out.print(stringBuilder.toString());
+            opcao = entrada.nextInt();
+            opcaoValida = false;
+            if (opcao < 0 || opcao > 4) {
+                System.out.println("Digite uma opção válida");
+                opcaoValida = true;
+            }
+        }
+        return opcao;
     }
 
     public static double menuProdutos() {
@@ -76,6 +130,7 @@ public class Main {
         }
         return calculoPesoProdutos(produtos, qtdProdutos); // retornar peso total
     }
+
 
     public static Produtos definirProduto(int opcao) {
         //Converter opção de inteiro para enumerador
@@ -127,7 +182,7 @@ public class Main {
         while (opcao != 0 || trechos.size() < 2) {
             combo.addActionListener(event -> {
                 String cidadeSelecionada = (String) combo.getSelectedItem();
-                if (evitarDuplicados.add(cidadeSelecionada)){ //testar duplicidade das cidades usando HashSet (auxiliar)
+                if (evitarDuplicados.add(cidadeSelecionada)) { //testar duplicidade das cidades usando HashSet (auxiliar)
                     trechos.add(cidadeSelecionada); //adicionado na lista real
                 }
                 frame.dispose();
@@ -143,15 +198,34 @@ public class Main {
             System.out.print("Se deseja adicionar uma cidade ao trajeto digite 1. Ou 0 para finalizar: ");
             opcao = entrada.nextInt();
         }
-        System.out.println(trechos.toString());
-
         return transporte.distanciaTotalDoTrecho(trechos);
     }
+
     public static String textoTransporteFinal(List<String> listaCidades, int distancia, List<Produtos> produtos,
-                                              List<Integer> qtdProdutos,String caminhoes, double custoTotal){
+                                              List<Integer> qtdProdutos, double peso, String caminhoes, double custoTotal) {
 
-        StringBuilder stringBuilder =new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\n-----------------Resumo-----------------\n");
+        stringBuilder.append("Trajeto: ");
 
+        //listar cidades selecionadas (menos a última para não colocar a vírgula no final)
+        for (int i = 0; i < listaCidades.size() - 1; i++) {
+            stringBuilder.append(listaCidades.get(i)).append(", ");
+        }
+        stringBuilder.append(listaCidades.get(listaCidades.size() - 1)).append("\n"); // agora sim, é a última
+
+        stringBuilder.append("Distância Total: ").append(distancia).append("km\n");
+        stringBuilder.append("Produtos(qtd): ");
+
+        //listar produtos selecionados e as suas quantidades (menos a última para não colocar a vírgula no final)
+        for (int i = 0; i < produtos.size() - 1; i++) {
+            stringBuilder.append(produtos.get(i)).append("(").append(qtdProdutos.get(i)).append("), ");
+        }
+        stringBuilder.append(produtos.get(produtos.size() - 1))
+                .append("(").append(qtdProdutos.get(qtdProdutos.size() - 1)).append(")\n"); // agora sim, é o último
+        stringBuilder.append("Peso Total: ").append(peso).append("kg\n");
+        stringBuilder.append("Veículos necessários para menor custo: ").append(caminhoes).append("\n");
+        stringBuilder.append("Custo Total: ").append(custoTotal);
 
         return stringBuilder.toString();
     }
