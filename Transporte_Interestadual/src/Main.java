@@ -1,16 +1,17 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
         String caminho = "C:\\Users\\bruno\\Desktop\\Teste PUC_DELL\\DNIT-Distancias.csv";
         Trechos cidades = null; // criado fora do try para ser usado posteriormente
+        double peso = 0;
 
 
         // Inicilizar BufferReader e FileReader no try para que sejam desalocados automaticamente no final
@@ -35,18 +36,21 @@ public class Main {
         }
         Transporte t1 = new Transporte(cidades);//inicializa o objeto 'Transporte' com a lista de distancias
 
-        System.out.println(t1.consultarCustoTrecho("Manaus" , "Curitiba", Modalidades.GRANDE_PORTE));
-        System.out.println(t1.modalidadeAdequada(86000));
-        menuProdutos();
+        System.out.println(t1.consultarCustoTrecho("Manaus", "Curitiba", Modalidades.GRANDE_PORTE));
+        escolherCidade(cidades.getCidades());
+
+        peso = menuProdutos();
+        System.out.println(t1.modalidadeAdequada(peso));
     }
-    public static double menuProdutos(){
+
+    public static double menuProdutos() {
         Scanner entrada = new Scanner(System.in);
         List<Produtos> produtos = new ArrayList<>(); // permitir que o usuário liste vários itens
         List<Integer> qtdProdutos = new ArrayList<>(); // permitir que o usuário liste suas quantidades
         int opcao = -1; // opção para menu de produtos
         int qtd = 0; // quantidade a ser definida para cada produto
 
-        while(opcao != 0){
+        while (opcao != 0) {
             System.out.println("----------Menu de Produtos----------");
             System.out.println("1 - Celular");
             System.out.println("2 - Geladeira");
@@ -59,18 +63,22 @@ public class Main {
 
             System.out.print("Escolha um produto conforme seu número: ");
             opcao = entrada.nextInt();
-            System.out.print("Escolha a quantidade: ");
-            qtd = entrada.nextInt();
-            if (opcao > 0 && opcao < 7){
+            if (opcao > 0 && opcao < 7) {// verificar se opção é válida
+                System.out.print("Escolha a quantidade: ");
+                qtd = entrada.nextInt();
                 produtos.add(definirProduto(opcao));
                 qtdProdutos.add(qtd);
+            } else if (opcao != 0) { // se não...
+                System.out.println("Opção inválida. Tente novamente!");
+                System.out.println("\n");
             }
         }
-        return calculoPesoProdutos(produtos,qtdProdutos);
+        return calculoPesoProdutos(produtos, qtdProdutos); // retornar peso total
     }
-    public static Produtos definirProduto(int opcao){
+
+    public static Produtos definirProduto(int opcao) {
         Produtos produto = null;
-        switch (opcao){
+        switch (opcao) {
             case 1 -> produto = Produtos.CELULAR;
             case 2 -> produto = Produtos.GELADEIRA;
             case 3 -> produto = Produtos.FREEZER;
@@ -80,12 +88,13 @@ public class Main {
         }
         return produto;
     }
+
     public static double calculoPesoProdutos(List<Produtos> produtos, List<Integer> qtds) {
         double peso = 0;
-        int i = 0;
+        int i = produtos.size() - 1;
 
-        while(produtos.isEmpty()){
-            switch (produtos.get(i)){
+        while (i >= 0) {
+            switch (produtos.get(i)) {
                 case CELULAR -> peso += qtds.get(i) * Produtos.CELULAR.getPeso();
                 case GELADEIRA -> peso += qtds.get(i) * Produtos.GELADEIRA.getPeso();
                 case FREEZER -> peso += qtds.get(i) * Produtos.FREEZER.getPeso();
@@ -93,9 +102,44 @@ public class Main {
                 case LUMINARIA -> peso += qtds.get(i) * Produtos.LUMINARIA.getPeso();
                 case LAVADORA_DE_ROUPA -> peso += qtds.get(i) * Produtos.LAVADORA_DE_ROUPA.getPeso();
             }
-            i++;
+            i--;
         }
 
         return peso;
+    }
+
+    public static void escolherCidade(String[] listaCidades) {
+        Scanner entrada = new Scanner(System.in);
+        String[] cidades = listaCidades;
+        Set<String> trechos = new HashSet<>();
+        int opcao = -1;
+
+        JFrame frame = new JFrame("Cidades");
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Selecione uma cidade:");
+        JComboBox<String> combo = new JComboBox<String>(cidades);
+
+        System.out.print("Se deseja adicionar uma cidade ao trajeto digite 1. Ou 0 para finalizar: ");
+        opcao = entrada.nextInt();
+        while (opcao != 0) {
+            combo.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    String cidadeSelecionada = (String) combo.getSelectedItem();
+                    trechos.add(cidadeSelecionada);
+                    frame.dispose();
+                }
+            });
+
+            panel.add(label);
+            panel.add(combo);
+            frame.add(panel);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
+            System.out.print("Se deseja adicionar uma cidade ao trajeto digite 1. Ou 0 para finalizar: ");
+            opcao = entrada.nextInt();
+        }
+        System.out.println(trechos.toString());
     }
 }

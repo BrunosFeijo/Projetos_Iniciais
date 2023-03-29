@@ -18,7 +18,7 @@ public class Transporte {
     }
 
     public String modalidadeAdequada(double peso) {
-        calculoQtdCaminhoes((int) Math.ceil(peso));
+        calculoQtdCaminhoes((int) Math.ceil(peso)); // converter peso para inteiro para facilitar o cálculo de caminhões
         StringBuilder stringBuilder = new StringBuilder();
         if (qtdCaminhaoGrande > 0) stringBuilder.append(qtdCaminhaoGrande).append(" de Porte Grande - ");
         if (qtdCaminhaoMedio > 0) stringBuilder.append(qtdCaminhaoMedio).append(" de Porte Médio - ");
@@ -44,7 +44,7 @@ public class Transporte {
             peso -= peso;
             qtdCaminhaoMedio++;
             return peso;
-        } else if (peso >= Modalidades.PEQUENO_PORTE.getPeso()) {
+        } else if(peso > 0) {
             peso -= Modalidades.PEQUENO_PORTE.getPeso();
             qtdCaminhaoPequeno++;
             return calculoQtdCaminhoes(peso);

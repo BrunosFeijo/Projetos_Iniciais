@@ -3,12 +3,20 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Trechos {
-    String[] cidades;
-    List<int[]> valores;
+    private String[] cidades;
+    private List<int[]> valores;
 
     public Trechos(String[] cidades) {
         this.cidades = cidades;
         valores = new ArrayList<>();
+    }
+
+    public String[] getCidades() {
+        return cidades;
+    }
+
+    public List<int[]> getValores() {
+        return valores;
     }
 
     public void adicionarVetorDistancia(int[] distancia) {
