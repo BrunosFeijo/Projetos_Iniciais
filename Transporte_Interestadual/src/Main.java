@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Main {
     static List<Produtos> produtos = new ArrayList<>(); // permitir que o usuário liste vários itens
@@ -248,11 +249,12 @@ public class Main {
         JPanel panel = new JPanel(); // painel
         JLabel label = new JLabel("Cidades: "); // rótulo do combobox
         JComboBox<String> combo = new JComboBox<>(listaCidades); // inserir lista de cidades no combobox
-
+        String retorno = null;
         combo.addActionListener(event -> {
             String cidadeSelecionada = (String) combo.getSelectedItem();
-            return cidadeSelecionada;
+            retorno = cidadeSelecionada;
             frame.dispose();
+            return cidadeSelecionada;
         });
 
         panel.add(label);
@@ -261,8 +263,9 @@ public class Main {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        
+        return "";
     }
-
 
 
     public static int escolherCidade(Transporte transporte, String[] listaCidades) {
