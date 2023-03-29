@@ -1,10 +1,11 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Transporte {
 
     private final Trechos trecho;
-    private List<Integer> distancias;
-    private List<Double> custos;
+    private List<Integer> distancias = new ArrayList<>();
+    private List<Double> custos = new ArrayList<>();
     private int qtdCaminhaoGrande;
     private int qtdCaminhaoMedio;
     private int qtdCaminhaoPequeno;
@@ -20,6 +21,10 @@ public class Transporte {
     }
 
     public String modalidadeAdequada(double peso) {
+        qtdCaminhaoGrande = 0; // retorna qtd a zero para refazer o cálculo em caso de entrega de carga parcial
+        qtdCaminhaoMedio = 0;
+        qtdCaminhaoPequeno = 0;
+
         calculoQtdCaminhoes(peso); // converter peso para inteiro para facilitar o cálculo de caminhões
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -32,11 +37,7 @@ public class Transporte {
     }
 
     private double calculoQtdCaminhoes(double peso) {
-        qtdCaminhaoGrande = 0; // retorna qtd a zero para refazer o cálculo em caso de entrega de carga parcial
-        qtdCaminhaoMedio = 0;
-        qtdCaminhaoPequeno = 0;
-
-        //verifica custo-benefício entre os veículos e as cargas (recursiva)
+            //verifica custo-benefício entre os veículos e as cargas (recursiva)
         if (peso >= Modalidades.GRANDE_PORTE.getPeso()) {
             peso -= Modalidades.GRANDE_PORTE.getPeso();
             qtdCaminhaoGrande++;

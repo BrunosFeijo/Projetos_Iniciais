@@ -9,6 +9,7 @@ public class Main {
     static List<Produtos> produtosEntregues = new ArrayList<>();// guardar produtos entregues e mais tarde comparar pesos
     static List<Integer> qtdProdutos = new ArrayList<>(); // permitir que o usuário liste as suas quantidades
     static List<Integer> qtdProdutosEntregues = new ArrayList<>(); // permitir que o usuário liste as suas quantidades
+    static List<Double> pesos = new ArrayList<>();
     static List<String> trechos = new ArrayList<>(); // permitir que o usuário liste várias cidades
     static Set<String> evitarDuplicados = new HashSet<>(); // utilizar Set para evitar duplicidade de cidades
 
@@ -55,6 +56,7 @@ public class Main {
                     break;
                 case 3:
                     peso = menuProdutos();// menu de produtos retorna o peso
+                    pesos.add(peso);
                     caminhoesNecessarios = t1.modalidadeAdequada(peso);//verificação das modalidades de transporte retorna uma String
                     break;
                 case 4:
@@ -115,7 +117,7 @@ public class Main {
             System.out.println("4 - Cadeira");
             System.out.println("5 - Luminária");
             System.out.println("6 - Lavadora de Roupa");
-            System.out.println("0 - Cancelar");
+            System.out.println("0 - Finalizar");
             System.out.println("------------------------------------");
 
             System.out.print("Escolha um produto conforme seu número: ");
@@ -189,7 +191,7 @@ public class Main {
                     System.out.println("4 - Cadeira");
                     System.out.println("5 - Luminária");
                     System.out.println("6 - Lavadora de Roupa");
-                    System.out.println("0 - Cancelar");
+                    System.out.println("0 - Finalizar");
                     System.out.println("------------------------------------");
                     System.out.println("Quais produtos devem ser entregues em " + trechos.get(i + 1) + ": ");
 
@@ -209,6 +211,7 @@ public class Main {
                     }
                 }
             }
+
         }
     }
 
