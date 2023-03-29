@@ -242,31 +242,28 @@ public class Main {
         }
     }
 
-    public static String  escolherCidadeParaConsulta(String[] listaCidades) {
-        Scanner entrada = new Scanner(System.in);
-        trechos.clear(); // caso seja necessário solicitar mais de uma entrega
-        int opcao;
-
+    public static String escolherCidadeParaConsulta(String[] listaCidades) {
         //Ajustando interface gráfica
         JFrame frame = new JFrame("Selecione uma cidade"); //janela
         JPanel panel = new JPanel(); // painel
         JLabel label = new JLabel("Cidades: "); // rótulo do combobox
         JComboBox<String> combo = new JComboBox<>(listaCidades); // inserir lista de cidades no combobox
 
-            combo.addActionListener(event -> {
-                String cidadeSelecionada = (String) combo.getSelectedItem();
-                frame.dispose();
-            });
+        combo.addActionListener(event -> {
+            String cidadeSelecionada = (String) combo.getSelectedItem();
+            return cidadeSelecionada;
+            frame.dispose();
+        });
 
-        return cidadeSelecionada;
         panel.add(label);
         panel.add(combo);
         frame.add(panel);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        return null;
     }
+
+
 
     public static int escolherCidade(Transporte transporte, String[] listaCidades) {
         Scanner entrada = new Scanner(System.in);
