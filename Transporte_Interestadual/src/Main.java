@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Main {
+    static List<String> cidadesConsulta = new ArrayList<>();
     static List<Produtos> produtos = new ArrayList<>(); // permitir que o usuário liste vários itens
     static List<Produtos> produtosEntregues = new ArrayList<>();// guardar produtos entregues e mais tarde comparar pesos
     static List<Integer> qtdProdutos = new ArrayList<>(); // permitir que o usuário liste as suas quantidades
@@ -53,13 +54,8 @@ public class Main {
         while (opcao != 0) {
             switch (opcao) {
                 case 1:
-
-                    System.out.print("Seleciona a cidade de origem: ");
-                    cidade1 = escolherCidadeParaConsulta(cidades.getCidades());
-                    System.out.print("Selecione a cidade de destino: ");
-                    cidade2 = escolherCidadeParaConsulta(cidades.getCidades());
-
-                    System.out.println(t1.consultarCustoTrecho("Manaus", "Curitiba", Modalidades.MEDIO_PORTE));
+                    escolherCidadeParaConsulta(t1, cidades.getCidades());
+                    System.out.println(t1.consultarCustoTrecho(cidadesConsulta.get(0), cidadesConsulta.get(1), Modalidades.MEDIO_PORTE));
                     break;
                 case 2:
                     distancia = escolherCidade(t1, cidades.getCidades()); //método para escolher cidades do trajeto retorna a distância
@@ -243,28 +239,37 @@ public class Main {
         }
     }
 
-    public static String escolherCidadeParaConsulta(String[] listaCidades) {
+    public static int escolherCidadeParaConsulta(Transporte transporte, String[] listaCidades) {
+        Scanner entrada = new Scanner(System.in);
+        trechos.clear(); // caso seja necessário solicitar mais de uma entrega
+        int opcao;
+
         //Ajustando interface gráfica
         JFrame frame = new JFrame("Selecione uma cidade"); //janela
         JPanel panel = new JPanel(); // painel
         JLabel label = new JLabel("Cidades: "); // rótulo do combobox
         JComboBox<String> combo = new JComboBox<>(listaCidades); // inserir lista de cidades no combobox
-        String retorno = null;
-        combo.addActionListener(event -> {
-            String cidadeSelecionada = (String) combo.getSelectedItem();
-            retorno = cidadeSelecionada;
-            frame.dispose();
-            return cidadeSelecionada;
-        });
 
-        panel.add(label);
-        panel.add(combo);
-        frame.add(panel);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        
-        return "";
+        System.out.print("Selecione qualquer número para continuar ou 0 para sair: ");
+        opcao = entrada.nextInt();
+        while (opcao != 0 || cidadesConsulta.size() < 2) {
+            combo.addActionListener(event -> {
+                String cidadeSelecionada = (String) combo.getSelectedItem();
+                if (evitarDuplicados.add(cidadeSelecionada)) { //testar duplicidade das cidades usando HashSet (auxiliar)
+                    cidadesConsulta.add(cidadeSelecionada); //adicionado na lista real
+                }
+                frame.dispose();
+            });
+
+            panel.add(label);
+            panel.add(combo);
+            frame.add(panel);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
+        }
+        return transporte.distanciaTotalDoTrecho(trechos);
     }
 
 
