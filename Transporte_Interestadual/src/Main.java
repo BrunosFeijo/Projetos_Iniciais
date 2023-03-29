@@ -176,13 +176,11 @@ public class Main {
             Produtos produto;
             int opcao = -1; // opção para menu de produtos
             int qtd; // quantidade a ser definida para cada produto
-            System.out.println("Estão cadastradas " + (trechos.size() - 1) + " paradas para entrega.");
-            System.out.println("Em qual delas deseja informar os produtos que serão entregues a seguir? ");
-            int parada = entrada.nextInt();
 
-            if (parada > trechos.size() - 1 || parada <= 0) {
-                System.out.println("Número da entrega não encontrado. Digite um número de 1 a " + (trechos.size() - 1));
-            } else {
+            System.out.println("Estão cadastradas " + (trechos.size() - 1) + " paradas para entrega.");
+            System.out.println("Digite na ordem das entregas quais produtos devem ser descarregados. ");
+            for (int i = 0; i < trechos.size() - 1; i++) {
+
                 while (opcao != 0) {
                     System.out.println("----------Menu de Produtos----------");
                     System.out.println("1 - Celular");
@@ -193,16 +191,16 @@ public class Main {
                     System.out.println("6 - Lavadora de Roupa");
                     System.out.println("0 - Cancelar");
                     System.out.println("------------------------------------");
-
-                    System.out.print("Escolha quais produtos devem ser entregues em " + trechos.get(parada - 1) + " ");
+                    System.out.println("Quais produtos devem ser entregues em " + trechos.get(i + 1) + ": ");
+                    
                     opcao = entrada.nextInt();
                     if (opcao > 0 && opcao < 7) {// verificar se opção é válida
                         System.out.print("Escolha a quantidade: ");
                         qtd = entrada.nextInt();
-                        if (verificarListaDeProdutos(definirProduto(opcao),qtd)){// verificar se opção existe no pedido
+                        if (verificarListaDeProdutos(definirProduto(opcao), qtd)) {// verificar se opção existe no pedido
                             produtosEntregues.add(definirProduto(opcao)); // adicionar produto selecionado na lista
                             qtdProdutosEntregues.add(qtd);
-                        }else{
+                        } else {
                             System.out.println("Item ou quantidade não foi adicionado no pedido");
                         }
                     } else if (opcao != 0) { // se não...
@@ -210,14 +208,15 @@ public class Main {
                         System.out.println("\n");
                     }
                 }
+
             }
         }
     }
 
     public static boolean verificarListaDeProdutos(Produtos produto, int qtd) {
-        if (produtos.contains(produto)){ // se o produto não for encontrato na lista de pedidos já feitos, retorna falso
+        if (produtos.contains(produto)) { // se o produto não for encontrato na lista de pedidos já feitos, retorna falso
             return false;
-        }else {
+        } else {
             //se a quantidade encontrada for maior ou igual que a solicitada retorna verdadeiro
             return qtdProdutos.get(produtos.indexOf(produto)) >= qtd;
         }
