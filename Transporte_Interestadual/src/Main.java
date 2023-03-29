@@ -200,10 +200,10 @@ public class Main {
                         System.out.print("Escolha a quantidade: ");
                         qtd = entrada.nextInt();
                         if (verificarListaDeProdutos(definirProduto(opcao),qtd)){
-                            produtosEntregues.add(); // adicionar produto selecionado na lista
-                            qtdProdutosEntregues.add();
+                            produtosEntregues.add(definirProduto(opcao)); // adicionar produto selecionado na lista
+                            qtdProdutosEntregues.add(qtd);
                         }else{
-
+                            System.out.println("Item ou quantidade não foi adicionado no pedido");
                         }
 
 
@@ -219,6 +219,13 @@ public class Main {
 
     public static boolean verificarListaDeProdutos(Produtos produto, int qtd) {
 
+        if (produtos.indexOf(produto) != -1){ // se o produto não for encontrato na lista de pedidos já feitos, retorna falso
+            return false;
+        }else {
+            if (qtdProdutos.get(produtos.indexOf(produto)) < qtd ){ //se a quantidade encontrada for menor que a solicitada retorna falso
+                return false;
+            }
+        }
         return true;
     }
 
