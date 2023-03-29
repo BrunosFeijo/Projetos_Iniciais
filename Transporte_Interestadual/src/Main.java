@@ -192,7 +192,7 @@ public class Main {
                     System.out.println("0 - Cancelar");
                     System.out.println("------------------------------------");
                     System.out.println("Quais produtos devem ser entregues em " + trechos.get(i + 1) + ": ");
-                    
+
                     opcao = entrada.nextInt();
                     if (opcao > 0 && opcao < 7) {// verificar se opção é válida
                         System.out.print("Escolha a quantidade: ");
@@ -208,7 +208,6 @@ public class Main {
                         System.out.println("\n");
                     }
                 }
-
             }
         }
     }
