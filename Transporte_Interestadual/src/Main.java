@@ -251,8 +251,7 @@ public class Main {
         JComboBox<String> combo = new JComboBox<>(listaCidades); // inserir lista de cidades no combobox
 
         while (opcao != 0 && cidadesConsulta.size() < 2) {
-            System.out.print("Selecione qualquer número para continuar ou 0 para sair: ");
-            opcao = entrada.nextInt();
+
             combo.addActionListener(event -> {
                 String cidadeSelecionada = (String) combo.getSelectedItem();
                 if (evitarDuplicados.add(cidadeSelecionada)) { //testar duplicidade das cidades usando HashSet (auxiliar)
@@ -267,7 +266,8 @@ public class Main {
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
-
+            System.out.print("Selecione qualquer número para continuar ou 0 para sair: ");
+            opcao = entrada.nextInt();
         }
         return transporte.distanciaTotalDoTrecho(trechos);
     }
