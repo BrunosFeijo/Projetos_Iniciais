@@ -14,6 +14,7 @@ public class Main {
     static Set<String> evitarDuplicados = new HashSet<>(); // utilizar Set para evitar duplicidade de cidades
 
     public static void main(String[] args) {
+        Scanner entrada = new Scanner(System.in);
         String caminho = "C:\\Users\\bruno\\Desktop\\Teste PUC_DELL\\DNIT-Distancias.csv";
         Trechos cidades = null; // criado fora do try para ser usado posteriormente
         int opcao;
@@ -21,6 +22,8 @@ public class Main {
         int distancia = 0;
         String caminhoesNecessarios = "";
         double custoTotal = 0;
+        String cidade1 = null;
+        String cidade2 = null;
 
 
         // Inicilizar BufferReader e FileReader no try para que sejam desalocados automaticamente no final
@@ -49,6 +52,12 @@ public class Main {
         while (opcao != 0) {
             switch (opcao) {
                 case 1:
+
+                    System.out.print("Seleciona a cidade de origem: ");
+                    cidade1 = escolherCidadeParaConsulta(cidades.getCidades());
+                    System.out.print("Selecione a cidade de destino: ");
+                    cidade2 = escolherCidadeParaConsulta(cidades.getCidades());
+
                     System.out.println(t1.consultarCustoTrecho("Manaus", "Curitiba", Modalidades.MEDIO_PORTE));
                     break;
                 case 2:
@@ -231,6 +240,32 @@ public class Main {
             //se a quantidade encontrada for maior ou igual que a solicitada retorna verdadeiro
             return qtdProdutos.get(produtos.indexOf(produto)) >= qtd;
         }
+    }
+
+    public static String  escolherCidadeParaConsulta(String[] listaCidades) {
+        Scanner entrada = new Scanner(System.in);
+        trechos.clear(); // caso seja necessário solicitar mais de uma entrega
+        int opcao;
+
+        //Ajustando interface gráfica
+        JFrame frame = new JFrame("Selecione uma cidade"); //janela
+        JPanel panel = new JPanel(); // painel
+        JLabel label = new JLabel("Cidades: "); // rótulo do combobox
+        JComboBox<String> combo = new JComboBox<>(listaCidades); // inserir lista de cidades no combobox
+
+            combo.addActionListener(event -> {
+                String cidadeSelecionada = (String) combo.getSelectedItem();
+                frame.dispose();
+            });
+
+        return cidadeSelecionada;
+        panel.add(label);
+        panel.add(combo);
+        frame.add(panel);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        return null;
     }
 
     public static int escolherCidade(Transporte transporte, String[] listaCidades) {
