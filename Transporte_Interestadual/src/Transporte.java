@@ -20,11 +20,7 @@ public class Transporte {
     }
 
     public String modalidadeAdequada(double peso) {
-        qtdCaminhaoGrande = 0; // retorna qtd a zero para refazer o cálculo em caso de entrega de carga parcial
-        qtdCaminhaoMedio = 0;
-        qtdCaminhaoPequeno = 0;
-
-        calculoQtdCaminhoes((int) Math.ceil(peso)); // converter peso para inteiro para facilitar o cálculo de caminhões
+        calculoQtdCaminhoes(peso); // converter peso para inteiro para facilitar o cálculo de caminhões
 
         StringBuilder stringBuilder = new StringBuilder();
         if (qtdCaminhaoGrande > 0) stringBuilder.append(qtdCaminhaoGrande).append(" de Porte Grande - ");
@@ -35,7 +31,11 @@ public class Transporte {
         return stringBuilder.toString();
     }
 
-    private int calculoQtdCaminhoes(int peso) {
+    private double calculoQtdCaminhoes(double peso) {
+        qtdCaminhaoGrande = 0; // retorna qtd a zero para refazer o cálculo em caso de entrega de carga parcial
+        qtdCaminhaoMedio = 0;
+        qtdCaminhaoPequeno = 0;
+
         //verifica custo-benefício entre os veículos e as cargas (recursiva)
         if (peso >= Modalidades.GRANDE_PORTE.getPeso()) {
             peso -= Modalidades.GRANDE_PORTE.getPeso();
@@ -82,7 +82,8 @@ public class Transporte {
     }
 
     private void custoFinal(List<String> listaCidades, double peso) {
-        modalidadeAdequada(peso);
+        calculoQtdCaminhoes(peso); //definir quantidade de caminhões por modelo
+
         double custoTotalTrecho = 0;
         for (int i = 0; i < listaCidades.size() - 1; i++) {
             if (qtdCaminhaoGrande > 0) {
@@ -94,9 +95,12 @@ public class Transporte {
             if (qtdCaminhaoPequeno > 0) {
                 custoTotalTrecho += custoTrecho(listaCidades.get(i), listaCidades.get(i + 1), Modalidades.PEQUENO_PORTE, qtdCaminhaoPequeno);
             }
+            calculoQtdCaminhoes(peso); // redefinir quantidade de caminhões após as paradas e entregas parciais.
         }
-
         custos.add(custoTotalTrecho);
     }
+    private double entregasParciais(double peso){
 
+        return 0;
+    }
 }
