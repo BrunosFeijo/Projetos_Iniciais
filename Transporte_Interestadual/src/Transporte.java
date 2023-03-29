@@ -62,6 +62,9 @@ public class Transporte {
         return 0;
     }
 
+    public List<Double> getCustos() {
+        return custos;
+    }
 
     public String consultarCustoTrecho(String cidade1, String cidade2, Modalidades modalidade) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -82,8 +85,8 @@ public class Transporte {
         return distanciaTotal;
     }
 
-    private void custoFinal(List<String> listaCidades, double peso, List<Double> pesoEntregue) {
-        calculoQtdCaminhoes(peso); //definir quantidade de caminhões por modelo
+    public void custoFinal(List<String> listaCidades, double peso, List<Double> pesoEntregue) {
+        modalidadeAdequada(peso); //definir quantidade de caminhões por modelo
 
         double custoTotalTrecho = 0;
         for (int i = 0; i < listaCidades.size() - 1; i++) {
@@ -96,9 +99,9 @@ public class Transporte {
             if (qtdCaminhaoPequeno > 0) {
                 custoTotalTrecho += custoTrecho(listaCidades.get(i), listaCidades.get(i + 1), Modalidades.PEQUENO_PORTE, qtdCaminhaoPequeno);
             }
-            calculoQtdCaminhoes(peso -= pesoEntregue.get(i)); // redefinir quantidade de caminhões após as paradas e entregas parciais.
+            custos.add(custoTotalTrecho);
+            modalidadeAdequada(peso -= pesoEntregue.get(i+1));
         }
-        custos.add(custoTotalTrecho);
     }
 
 }

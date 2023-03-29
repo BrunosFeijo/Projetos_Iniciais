@@ -60,11 +60,15 @@ public class Main {
                     caminhoesNecessarios = t1.modalidadeAdequada(peso);//verificação das modalidades de transporte retorna uma String
                     break;
                 case 4:
+                    entregarCarga();
+                    break;
+                case 5:
                     if (trechos.size() == 0 || produtos.size() == 0) {
                         System.out.println("Pedido incompleto");
                     } else {
+                        t1.custoFinal(trechos, pesos.get(0), pesos);
                         System.out.println(textoTransporteFinal(trechos, distancia, produtos,
-                                qtdProdutos, peso, caminhoesNecessarios, custoTotal));
+                                qtdProdutos, peso, caminhoesNecessarios, t1));
                     }
                     break;
             }
@@ -84,7 +88,8 @@ public class Main {
         stringBuilder.append("1- Consultar custo de trecho unitário (valor de carga média)\n");
         stringBuilder.append("2- Informar trajeto\n");
         stringBuilder.append("3- Informar produtos e quantidades\n");
-        stringBuilder.append("4- Resumo pedido\n");
+        stringBuilder.append("4- Informar ordem de entrega e quantidade\n");
+        stringBuilder.append("5- Resumo pedido\n");
         stringBuilder.append("0- Cancelar e Sair\n");
         stringBuilder.append("-------------------------------------------------------------\n");
         stringBuilder.append("Digite a opção desejada: ");
@@ -94,7 +99,7 @@ public class Main {
             System.out.print(stringBuilder.toString());
             opcao = entrada.nextInt();
             opcaoValida = false;
-            if (opcao < 0 || opcao > 4) {
+            if (opcao < 0 || opcao > 5) {
                 System.out.println("Digite uma opção válida");
                 opcaoValida = true;
             }
@@ -176,13 +181,14 @@ public class Main {
         } else {
             Scanner entrada = new Scanner(System.in);
             Produtos produto;
-            int opcao = -1; // opção para menu de produtos
+            double peso = 0;
+            int opcao;// opção para menu de produtos
             int qtd; // quantidade a ser definida para cada produto
 
             System.out.println("Estão cadastradas " + (trechos.size() - 1) + " paradas para entrega.");
             System.out.println("Digite na ordem das entregas quais produtos devem ser descarregados. ");
             for (int i = 0; i < trechos.size() - 1; i++) {
-
+                opcao = -1;
                 while (opcao != 0) {
                     System.out.println("----------Menu de Produtos----------");
                     System.out.println("1 - Celular");
@@ -193,7 +199,7 @@ public class Main {
                     System.out.println("6 - Lavadora de Roupa");
                     System.out.println("0 - Finalizar");
                     System.out.println("------------------------------------");
-                    System.out.println("Quais produtos devem ser entregues em " + trechos.get(i + 1) + ": ");
+                    System.out.print("Quais produtos devem ser entregues em " + trechos.get(i + 1) + ": ");
 
                     opcao = entrada.nextInt();
                     if (opcao > 0 && opcao < 7) {// verificar se opção é válida
@@ -202,6 +208,9 @@ public class Main {
                         if (verificarListaDeProdutos(definirProduto(opcao), qtd)) {// verificar se opção existe no pedido
                             produtosEntregues.add(definirProduto(opcao)); // adicionar produto selecionado na lista
                             qtdProdutosEntregues.add(qtd);
+                            peso += calculoPesoProdutos(produtosEntregues, qtdProdutosEntregues);
+                            produtosEntregues.clear();
+                            qtdProdutosEntregues.clear();
                         } else {
                             System.out.println("Item ou quantidade não foi adicionado no pedido");
                         }
@@ -210,13 +219,13 @@ public class Main {
                         System.out.println("\n");
                     }
                 }
+                pesos.add(peso);
             }
-
         }
     }
 
     public static boolean verificarListaDeProdutos(Produtos produto, int qtd) {
-        if (produtos.contains(produto)) { // se o produto não for encontrato na lista de pedidos já feitos, retorna falso
+        if (produtos.indexOf(produto) == -1) { // se o produto não for encontrato na lista de pedidos já feitos, retorna falso
             return false;
         } else {
             //se a quantidade encontrada for maior ou igual que a solicitada retorna verdadeiro
@@ -260,7 +269,7 @@ public class Main {
     }
 
     public static String textoTransporteFinal(List<String> listaCidades, int distancia, List<Produtos> produtos,
-                                              List<Integer> qtdProdutos, double peso, String caminhoes, double custoTotal) {
+                                              List<Integer> qtdProdutos, double peso, String caminhoes, Transporte t1) {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("\n-----------------Resumo-----------------\n");
@@ -283,7 +292,10 @@ public class Main {
                 .append("(").append(qtdProdutos.get(qtdProdutos.size() - 1)).append(")\n"); // agora sim, é o último
         stringBuilder.append("Peso Total: ").append(peso).append("kg\n");
         stringBuilder.append("Veículos necessários para menor custo: ").append(caminhoes).append("\n");
-        stringBuilder.append("Custo Total: ").append(custoTotal);
+        stringBuilder.append("Custo por Trecho: ");
+//        for (int i = 0; 0 < trechos.size(); i++) {
+//            stringBuilder.append((i + 1)).append("° entrega custou: ").append(t1.getCustos().get(i)).append("\n");
+//        }
 
         return stringBuilder.toString();
     }
