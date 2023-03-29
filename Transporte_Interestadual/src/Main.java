@@ -199,34 +199,28 @@ public class Main {
                     if (opcao > 0 && opcao < 7) {// verificar se opção é válida
                         System.out.print("Escolha a quantidade: ");
                         qtd = entrada.nextInt();
-                        if (verificarListaDeProdutos(definirProduto(opcao),qtd)){
+                        if (verificarListaDeProdutos(definirProduto(opcao),qtd)){// verificar se opção existe no pedido
                             produtosEntregues.add(definirProduto(opcao)); // adicionar produto selecionado na lista
                             qtdProdutosEntregues.add(qtd);
                         }else{
                             System.out.println("Item ou quantidade não foi adicionado no pedido");
                         }
-
-
                     } else if (opcao != 0) { // se não...
                         System.out.println("Opção inválida. Tente novamente!");
                         System.out.println("\n");
                     }
                 }
-                return calculoPesoProdutos(produtos, qtdProdutos); // retornar peso total
             }
         }
     }
 
     public static boolean verificarListaDeProdutos(Produtos produto, int qtd) {
-
-        if (produtos.indexOf(produto) != -1){ // se o produto não for encontrato na lista de pedidos já feitos, retorna falso
+        if (produtos.contains(produto)){ // se o produto não for encontrato na lista de pedidos já feitos, retorna falso
             return false;
         }else {
-            if (qtdProdutos.get(produtos.indexOf(produto)) < qtd ){ //se a quantidade encontrada for menor que a solicitada retorna falso
-                return false;
-            }
+            //se a quantidade encontrada for maior ou igual que a solicitada retorna verdadeiro
+            return qtdProdutos.get(produtos.indexOf(produto)) >= qtd;
         }
-        return true;
     }
 
     public static int escolherCidade(Transporte transporte, String[] listaCidades) {
