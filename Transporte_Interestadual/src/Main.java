@@ -9,6 +9,7 @@ import java.util.*;
 public class Main {
     static List<Produtos> produtos = new ArrayList<>(); // permitir que o usuário liste vários itens
     static List<Integer> qtdProdutos = new ArrayList<>(); // permitir que o usuário liste suas quantidades
+    static Set<String> trechos = new HashSet<>(); // utilizar Set para evitar duplicidade de cidades
     public static void main(String[] args) {
         String caminho = "C:\\Users\\bruno\\Desktop\\Teste PUC_DELL\\DNIT-Distancias.csv";
         Trechos cidades = null; // criado fora do try para ser usado posteriormente
@@ -112,7 +113,7 @@ public class Main {
     public static void escolherCidade(String[] listaCidades) {
         Scanner entrada = new Scanner(System.in);
         String[] cidades = listaCidades; // inicializando lista de cidades para dar opções ao usuário
-        Set<String> trechos = new HashSet<>(); // utilizar Set para evitar duplicidade de cidades
+
         int opcao = -1;
 
         //Ajustando interface gráfica
