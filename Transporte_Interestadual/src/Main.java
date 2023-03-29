@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-
+    static List<Produtos> produtos = new ArrayList<>(); // permitir que o usuário liste vários itens
+    static List<Integer> qtdProdutos = new ArrayList<>(); // permitir que o usuário liste suas quantidades
     public static void main(String[] args) {
         String caminho = "C:\\Users\\bruno\\Desktop\\Teste PUC_DELL\\DNIT-Distancias.csv";
         Trechos cidades = null; // criado fora do try para ser usado posteriormente
@@ -36,7 +37,7 @@ public class Main {
         }
         Transporte t1 = new Transporte(cidades);//inicializa o objeto 'Transporte' com a lista de distancias
 
-        System.out.println(t1.consultarCustoTrecho("Manaus", "Curitiba", Modalidades.GRANDE_PORTE));
+        System.out.println(t1.consultarCustoTrecho("Manaus", "Curitiba", Modalidades.MEDIO_PORTE));
         escolherCidade(cidades.getCidades());
 
         peso = menuProdutos();
@@ -45,8 +46,8 @@ public class Main {
 
     public static double menuProdutos() {
         Scanner entrada = new Scanner(System.in);
-        List<Produtos> produtos = new ArrayList<>(); // permitir que o usuário liste vários itens
-        List<Integer> qtdProdutos = new ArrayList<>(); // permitir que o usuário liste suas quantidades
+        produtos.clear(); // caso haja um novo pedido dentro do mesmo carrinho
+        qtdProdutos.clear(); // caso haja um novo pedido dentro do mesmo carrinho
         int opcao = -1; // opção para menu de produtos
         int qtd = 0; // quantidade a ser definida para cada produto
 
@@ -66,7 +67,7 @@ public class Main {
             if (opcao > 0 && opcao < 7) {// verificar se opção é válida
                 System.out.print("Escolha a quantidade: ");
                 qtd = entrada.nextInt();
-                produtos.add(definirProduto(opcao));
+                produtos.add(definirProduto(opcao)); // adicionar produto selecionado na lista
                 qtdProdutos.add(qtd);
             } else if (opcao != 0) { // se não...
                 System.out.println("Opção inválida. Tente novamente!");
@@ -115,9 +116,9 @@ public class Main {
         int opcao = -1;
 
         //Ajustando interface gráfica
-        JFrame frame = new JFrame("Cidades");
+        JFrame frame = new JFrame("Selecione uma cidade");
         JPanel panel = new JPanel();
-        JLabel label = new JLabel("Selecione uma cidade:");
+        JLabel label = new JLabel("Cidades: ");
         JComboBox<String> combo = new JComboBox<String>(cidades);
 
         System.out.print("Se deseja adicionar uma cidade ao trajeto digite 1. Ou 0 para finalizar: ");
